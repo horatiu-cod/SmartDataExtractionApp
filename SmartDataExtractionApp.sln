@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.37111.16 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartDataExtraction", "src\SmartDataExtraction\SmartDataExtraction.csproj", "{9FDF5B15-99D0-4347-9EA4-3CF9F01F556C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9FDF5B15-99D0-4347-9EA4-3CF9F01F556C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9FDF5B15-99D0-4347-9EA4-3CF9F01F556C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9FDF5B15-99D0-4347-9EA4-3CF9F01F556C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9FDF5B15-99D0-4347-9EA4-3CF9F01F556C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9FDF5B15-99D0-4347-9EA4-3CF9F01F556C} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3C4DD6D9-DAD8-4516-86D2-D7FC61DCD622}
+	EndGlobalSection
+EndGlobal
