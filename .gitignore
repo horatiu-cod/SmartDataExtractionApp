@@ -361,3 +361,7 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/src/SmartDataExtraction/data/converted.json
+/src/SmartDataExtraction/data/input.pdf
+/src/SmartDataExtraction/data/inputuri.pdf
+/src/SmartDataExtraction/data/intial.pdf
