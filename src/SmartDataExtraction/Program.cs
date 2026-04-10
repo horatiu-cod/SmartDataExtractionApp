@@ -1,7 +1,6 @@
 ﻿using DiffPlex.DiffBuilder;
 using Microsoft.Extensions.Configuration;
 using SmartDataExtraction;
-using System.Diagnostics.Metrics;
 using System.Text;
 
 // Load configuration from user secrets
@@ -10,10 +9,11 @@ var builder = new ConfigurationBuilder()
 var configuration = builder.Build();
 
 var key = configuration["SyncfusionLicenseKey"];
-TextExtractor.Licensing(key);
+//TextExtractor.Licensing(key);
 
 var inputPath = Path.Combine("data", "inputuri.pdf");
-var outputPath = Path.Combine("data", "output.pdf");
+var resultsDirectory  = Path.Combine("data", "results");
+
 
 if (!File.Exists(inputPath))
 {
@@ -22,11 +22,11 @@ if (!File.Exists(inputPath))
 }
 
 // Initialize TextExtractor
-var extractor = new TextExtractor(key);
+var extractor = new TextExtractor(key, resultsDirectory);
 
 // Define page headers for splitting
-List<string> pageHeaders = new()
-{
+List<string> pageHeaders =
+[
     "SOLICITANT",
     "Responsabil de proiect / Persoană de contact",
     "Capacitate solicitant",
@@ -45,22 +45,22 @@ List<string> pageHeaders = new()
     "Plan de monitorizare a proiectului",
     "BUGET TOTAL",
     "Criterii ETF"
-};
+];
 
 try
 {
     // Step 1: Split PDF by fixed number of pages
     Console.WriteLine("Step 1: Splitting PDF by fixed page count...");
-    var (pageCount, splitOutput) = extractor.SplitPdfByFixedNumber(inputPath, outputPath);
+    var (pageCount, tempOutput) = extractor.SplitPdfByFixedNumber(inputPath);
 
     // Step 2: Find and validate sections
     Console.WriteLine("Step 2: Finding and validating sections...");
-    var validatedSections = extractor.FindAndValidateSections(splitOutput, pageHeaders);
+    var validatedSections = extractor.FindAndValidateSections(tempOutput, pageHeaders);
     Console.WriteLine($"Found {validatedSections.Count} valid sections.");
 
     // Step 3: Split PDF by sections
     Console.WriteLine("Step 3: Splitting PDF by sections...");
-    var sectionList = extractor.SplitPdfBySections(splitOutput, validatedSections, pageCount);
+    var sectionList = extractor.SplitPdfBySections(tempOutput, validatedSections, pageCount);
     
     // Step 4: Extract data from sections
     Console.WriteLine("Step 4: Extracting data from sections...");
@@ -77,8 +77,7 @@ try
         Encoding.UTF8);
     // Step 6: Optionally convert to Markdown
     Console.WriteLine("Step 6: Converting JSON to Markdown...");
-    var converter = new JsonToMarkdownConverter();
-    var markdown = converter.Convert(extractedJson);
+    var markdown = JsonToMarkdownConverter.Convert(extractedJson);
     await File.WriteAllTextAsync(
         Path.Combine("data", $"result_{timestamp}.md"), 
         markdown, 

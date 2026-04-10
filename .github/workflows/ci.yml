@@ -1,0 +1,55 @@
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build-and-test:
+    runs-on: windows-latest
+    env:
+      # Read repository-level variable 'RUN_INTEGRATION' (set under Settings -> Actions -> Variables)
+      RUN_INTEGRATION: ${{ vars.RUN_INTEGRATION }}
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '9.0.x'
+
+    - name: Restore
+      run: dotnet restore
+
+    - name: Build
+      run: dotnet build --no-restore --configuration Release
+
+    - name: Run unit tests (exclude integration)
+      run: |
+        dotnet test --no-build --verbosity normal --filter "Category!=IntegrationTest"
+
+    - name: Run integration tests (integration only)
+      if: ${{ env.RUN_INTEGRATION == 'true' }}
+      # Fail early if required external resources (Syncfusion license) are missing
+    - name: Check Syncfusion license for integration tests
+      if: ${{ env.RUN_INTEGRATION == 'true' }}
+      run: |
+        echo "Checking Syncfusion license..."
+        if [ -z "${{ secrets.SYNCFUSION_LICENSE }}" ]; then
+          echo "ERROR: Integration tests require the SYNCFUSION_LICENSE secret to be set.";
+          exit 1;
+        fi
+      shell: bash
+
+    - name: Run integration tests (integration only)
+      if: ${{ env.RUN_INTEGRATION == 'true' }}
+      env:
+        SYNCFUSION_LICENSE: ${{ secrets.SYNCFUSION_LICENSE }}
+      run: |
+        echo "RUN_INTEGRATION=${RUN_INTEGRATION}"
+        echo "Injecting SYNCFUSION_LICENSE into test environment"
+        dotnet test --no-build --verbosity normal --filter "Category=IntegrationTest"

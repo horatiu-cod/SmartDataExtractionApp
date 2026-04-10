@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.37111.16 d17.14
+VisualStudioVersion = 17.14.37111.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartDataExtraction", "src\SmartDataExtraction\SmartDataExtraction.csproj", "{9FDF5B15-99D0-4347-9EA4-3CF9F01F556C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartDataExtraction.Test", "test\SmartDataExtraction.Test\SmartDataExtraction.Test.csproj", "{19A49907-DB74-4807-896B-505908EE84EA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,6 +19,10 @@ Global
 		{9FDF5B15-99D0-4347-9EA4-3CF9F01F556C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9FDF5B15-99D0-4347-9EA4-3CF9F01F556C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9FDF5B15-99D0-4347-9EA4-3CF9F01F556C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19A49907-DB74-4807-896B-505908EE84EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19A49907-DB74-4807-896B-505908EE84EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19A49907-DB74-4807-896B-505908EE84EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19A49907-DB74-4807-896B-505908EE84EA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

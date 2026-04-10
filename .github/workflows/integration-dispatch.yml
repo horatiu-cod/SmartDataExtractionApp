@@ -1,0 +1,44 @@
+name: Integration tests (manual)
+
+on:
+  workflow_dispatch:
+    inputs:
+      run_on:
+        description: 'Runner OS'
+        required: false
+        default: 'windows-latest'
+      test_filter:
+        description: 'Test filter to pass to dotnet test (example: "Category=IntegrationTest")'
+        required: false
+        default: 'Category=IntegrationTest'
+      timeout_minutes:
+        description: 'Job timeout in minutes'
+        required: false
+        default: '30'
+
+jobs:
+  integration-only:
+    runs-on: ${{ github.event.inputs.run_on }}
+    timeout-minutes: ${{ github.event.inputs.timeout_minutes }}
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '9.0.x'
+
+    - name: Restore
+      run: dotnet restore
+
+    - name: Build
+      run: dotnet build --no-restore --configuration Release
+
+    - name: Run integration tests
+      env:
+        SYNCFUSION_LICENSE: ${{ secrets.SYNCFUSION_LICENSE }}
+      run: |
+        echo "Running integration tests with filter: '${{ github.event.inputs.test_filter }}'"
+        echo "Injecting SYNCFUSION_LICENSE into test environment"
+        dotnet test --no-build --verbosity normal --filter "${{ github.event.inputs.test_filter }}"
